@@ -74,3 +74,4 @@ Kolom Kobo: `{block}_{i+1}_{j+1}` mis. `konstruk_1_2`, `k5_3_4`.
 - Ahli dengan matriks tidak konsisten otomatis diekslusi dari agregasi.
 - Bobot global = bobot konstruk × bobot indikator lokal, dinormalisasi ke Σ=1.
 >>>>>>> master
+
