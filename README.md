@@ -1,4 +1,4 @@
-# Stack AHP-MCE — Pembobotan Zonasi FOLUR Luwu
+# Stack AHP-MCE — Pembobotan Zonasi
 
 Stack lengkap untuk pengumpulan penilaian ahli (pairwise AHP), perhitungan bobot
 deterministik, dan pelaporan agregat — siap dijalankan dengan satu perintah Docker Compose.
