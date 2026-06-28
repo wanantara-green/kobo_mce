@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pembobotan AHP (Satu Halaman) — Zonasi FOLUR Luwu</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ["Fraunces", "serif"],
+            sans: ["Inter", "sans-serif"],
+            mono: ["JetBrains Mono", "monospace"],
+          },
+          colors: {
+            canopy: { 50:"#f1f6f0", 100:"#dbe8d8", 600:"#3f6b3a", 700:"#2f5430", 800:"#234023", 900:"#1a3019" },
+            clay: { 400:"#c98a5a", 500:"#b6713f", 600:"#9a5a2e" },
+            paper: "#f7f4ec",
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    body { background-color: #f6f3ea; }
+    .contour-bg {
+      background-image:
+        repeating-radial-gradient(circle at 18% 30%, transparent 0 22px, rgba(47,84,48,0.04) 22px 23px),
+        repeating-radial-gradient(circle at 82% 75%, transparent 0 26px, rgba(154,90,46,0.045) 26px 27px);
+    }
+    input[type="range"] { -webkit-appearance: none; appearance: none; background: transparent; }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 4px; border-radius: 999px;
+      background: linear-gradient(90deg, #b6713f 0%, #d8cfc0 50%, #3f6b3a 100%);
+    }
+    input[type="range"]::-moz-range-track {
+      height: 4px; border-radius: 999px;
+      background: linear-gradient(90deg, #b6713f 0%, #d8cfc0 50%, #3f6b3a 100%);
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; appearance: none; margin-top: -9px;
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #fff; border: 3px solid #234023; cursor: grab;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: #fff; border: 3px solid #234023; cursor: grab;
+    }
+    input[type="range"]:active::-webkit-slider-thumb { cursor: grabbing; }
+    @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+  </style>
+</head>
+<body class="font-sans text-canopy-900 contour-bg min-h-screen">
+
+  <!-- Header -->
+  <header class="border-b border-canopy-800/15 bg-paper/80 backdrop-blur sticky top-0 z-30">
+    <div class="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <svg width="34" height="34" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <path d="M5 28 L14 12 L22 22 L28 14 L35 28 Z" stroke="#2f5430" stroke-width="2.5" fill="#dbe8d8"/>
+          <circle cx="28" cy="14" r="2.5" fill="#b6713f"/>
+        </svg>
+        <div>
+          <p class="font-display font-extrabold text-lg leading-none text-canopy-800">Perencanaan Zonasi Spasial</p>
+          <p class="text-xs text-canopy-700/70 mt-0.5">Kabupaten Luwu · Sulawesi Selatan</p>
+        </div>
+      </div>
+      <span class="font-mono text-xs text-clay-600 border border-clay-500/30 rounded-full px-3 py-1">AHP · MCE</span>
+    </div>
+  </header>
+
+  <main class="max-w-5xl mx-auto px-5 py-8" id="app">
+
+    <!-- Judul -->
+    <div class="mb-8">
+      <p class="font-mono text-xs tracking-widest text-clay-600 uppercase mb-3">Penilaian Ahli</p>
+      <h1 class="font-display font-extrabold text-3xl sm:text-4xl text-canopy-900 leading-tight mb-3">
+        Kuisioner Pembobotan
+      </h1>
+      <p class="text-canopy-800/80 max-w-2xl leading-relaxed">
+        Geser tiap penanda ke arah elemen yang lebih penting. Seluruh perbandingan tampak sekaligus
+        sehingga Anda dapat membandingkan, menyelaraskan, dan menyunting jawaban antar kelompok.
+        Rasio konsistensi (CR) tiap kelompok diperbarui otomatis saat Anda menggeser.
+      </p>
+    </div>
+
+    <!-- ===== Panduan cara mengisi ===== -->
+    <details open class="bg-white/70 border border-canopy-800/12 rounded-2xl shadow-sm mb-8 overflow-hidden">
+      <summary class="cursor-pointer select-none px-6 py-4 font-display font-semibold text-canopy-800 flex items-center gap-2">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8.25" stroke="#2f5430" stroke-width="1.5"/><path d="M10 9v5" stroke="#2f5430" stroke-width="1.8" stroke-linecap="round"/><circle cx="10" cy="6.3" r="1" fill="#2f5430"/></svg>
+        Cara mengisi yang benar
+        <span class="ml-auto font-mono text-[11px] text-canopy-700/50">klik untuk buka/tutup</span>
+      </summary>
+      <div class="px-6 pb-6 space-y-5 text-sm text-canopy-800/85 leading-relaxed">
+
+        <!-- 1. Arah & kekuatan -->
+        <div>
+          <p class="font-semibold text-canopy-800 mb-1">1 · Arah & kekuatan penanda</p>
+          <p>Penanda di <span class="font-medium">tengah</span> = kedua elemen <em>sama penting</em>. Geser
+          ke <span class="text-clay-600 font-medium">kiri</span> bila elemen kiri lebih penting, ke
+          <span class="text-canopy-700 font-medium">kanan</span> bila elemen kanan lebih penting.
+          Makin jauh geserannya, makin <em>kuat</em> selisih kepentingannya.</p>
+          <!-- Legenda skala Saaty -->
+          <div class="mt-3 grid grid-cols-2 sm:grid-cols-5 gap-2 font-mono text-[11px]">
+            <div class="rounded-lg border border-canopy-800/12 px-2 py-1.5 text-center">1 · sama penting</div>
+            <div class="rounded-lg border border-canopy-800/12 px-2 py-1.5 text-center">3 · sedikit lebih</div>
+            <div class="rounded-lg border border-canopy-800/12 px-2 py-1.5 text-center">5 · lebih penting</div>
+            <div class="rounded-lg border border-canopy-800/12 px-2 py-1.5 text-center">7 · sangat lebih</div>
+            <div class="rounded-lg border border-canopy-800/12 px-2 py-1.5 text-center">9 · mutlak lebih</div>
+          </div>
+          <p class="mt-2 text-xs text-canopy-700/60">Angka genap (2, 4, 6, 8) adalah nilai antara bila Anda ragu di tengah-tengah.</p>
+        </div>
+
+        <!-- 2. Konsistensi -->
+        <div>
+          <p class="font-semibold text-canopy-800 mb-1">2 · Jaga konsistensi (aturan utama)</p>
+          <p>Penilaian Anda harus <span class="font-medium">logis dan saling nyambung</span>. Jika menurut Anda
+          <span class="font-mono">A &gt; B</span> dan <span class="font-mono">B &gt; C</span>, maka seharusnya
+          <span class="font-mono">A &gt; C</span> — dan kekuatannya kira-kira sebanding. Penilaian yang
+          bertentangan (mis. A jauh di atas B, B jauh di atas C, tapi A hanya sedikit di atas C) membuat
+          <span class="font-medium">CR naik</span>.</p>
+        </div>
+
+        <!-- 3. Arti penanda CR -->
+        <div>
+          <p class="font-semibold text-canopy-800 mb-1">3 · Arti penanda CR di tiap kelompok</p>
+          <div class="flex flex-wrap gap-2 mb-2">
+            <span class="font-mono text-xs rounded-full px-3 py-1 border border-canopy-600/40 bg-canopy-50 text-canopy-700">CR ≤ 0,10 · baik</span>
+            <span class="font-mono text-xs rounded-full px-3 py-1 border border-red-600 bg-red-600 text-white">CR &gt; 0,10 · perlu ditinjau</span>
+          </div>
+          <p><span class="text-clay-600 font-medium">Penting:</span> hanya respons yang <span class="font-medium">semua kelompoknya CR ≤ 0,10</span>
+          yang dihitung ke dalam bobot agregat. Bila ada kelompok berpenanda merah, tinjau kembali —
+          biasanya cukup melonggarkan 1–2 penilaian yang terlalu ekstrem agar selaras dengan yang lain.</p>
+        </div>
+
+      </div>
+    </details>
+
+    <!-- Identitas -->
+    <section class="bg-white/70 border border-canopy-800/12 rounded-2xl p-6 shadow-sm mb-8">
+      <div class="grid sm:grid-cols-2 gap-4">
+        <div>
+          <label class="block text-sm font-medium text-canopy-800 mb-1.5">Nama</label>
+          <input id="in-nama" type="text" placeholder="Nama lengkap"
+            class="w-full rounded-xl border border-canopy-800/20 px-4 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-canopy-600/40" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-canopy-800 mb-1.5">Instansi</label>
+          <input id="in-instansi" type="text" placeholder="Lembaga / dinas / kelompok"
+            class="w-full rounded-xl border border-canopy-800/20 px-4 py-2.5 bg-white focus:outline-none focus:ring-2 focus:ring-canopy-600/40" />
+        </div>
+      </div>
+      <div class="mt-4">
+        <label class="block text-sm font-medium text-canopy-800 mb-1.5">Tipologi keahlian</label>
+        <div id="tipologi-options" class="grid grid-cols-2 sm:grid-cols-4 gap-2"></div>
+      </div>
+    </section>
+
+    <!-- Kelompok perbandingan (di-render oleh app.js) -->
+    <div id="blocks"></div>
+
+  </main>
+
+  <!-- Bilah aksi melayang -->
+  <div class="sticky bottom-0 z-30 border-t border-canopy-800/15 bg-paper/90 backdrop-blur">
+    <div class="max-w-5xl mx-auto px-5 py-3 flex flex-wrap items-center gap-3 justify-between">
+      <div class="flex items-center gap-4 text-xs font-mono text-canopy-700/70">
+        <span id="overall-cr">CR keseluruhan: —</span>
+        <span id="filled-count" class="hidden sm:inline"></span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="btn-reset"
+          class="px-4 py-2 rounded-xl border border-canopy-800/20 text-canopy-800 hover:bg-canopy-50 transition-colors text-sm">
+          Reset
+        </button>
+        <button id="btn-submit"
+          class="px-6 py-2.5 rounded-xl bg-canopy-700 hover:bg-canopy-800 text-white font-medium transition-colors disabled:opacity-40 disabled:cursor-not-allowed">
+          Kirim penilaian
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Overlay selesai -->
+  <div id="done-overlay" class="hidden fixed inset-0 z-40 bg-canopy-900/40 backdrop-blur-sm flex items-center justify-center px-5">
+    <div class="bg-paper rounded-2xl p-8 max-w-md text-center shadow-xl">
+      <svg width="56" height="56" viewBox="0 0 40 40" class="mx-auto mb-4" fill="none">
+        <circle cx="20" cy="20" r="18" fill="#dbe8d8" stroke="#2f5430" stroke-width="2"/>
+        <path d="M12 20.5 L18 26 L29 14" stroke="#2f5430" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h2 class="font-display font-extrabold text-2xl text-canopy-900 mb-2">Terima kasih</h2>
+      <p class="text-canopy-800/75 mb-6" id="done-msg">Penilaian Anda tersimpan.</p>
+      <a href="hasil.html" class="inline-block bg-canopy-700 hover:bg-canopy-800 text-white font-medium rounded-xl px-6 py-3 transition-colors">Lihat hasil agregat</a>
+    </div>
+  </div>
+
+  <footer class="max-w-5xl mx-auto px-5 py-8 text-center">
+    <p class="font-mono text-[11px] text-canopy-700/40">PT. MARETO AGRI PERSADA · UNDP FOLUR Indonesia</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

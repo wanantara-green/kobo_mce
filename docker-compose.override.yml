@@ -1,0 +1,24 @@
+# docker-compose.override.yml — Konfigurasi PENGEMBANGAN (live-reload).
+#
+# File ini dimuat OTOMATIS oleh `docker compose up` dan ditumpangkan di atas
+# docker-compose.yml. Efeknya:
+#   - frontend: berkas statis di-mount langsung → edit HTML/JS/CSS lalu refresh
+#     browser, tanpa rebuild.
+#   - backend : kode di-mount + DJANGO_DEBUG=1 → runserver auto-reload saat
+#     file .py diubah.
+#
+# Untuk menjalankan mode PRODUKSI (abaikan file ini, pakai gunicorn & kode
+# yang ter-bake ke image), sebut file base secara eksplisit:
+#
+#   docker compose -f docker-compose.yml up -d --build
+#
+services:
+  backend:
+    environment:
+      DJANGO_DEBUG: "1"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    volumes:
+      - ./frontend/static:/usr/share/nginx/html:ro

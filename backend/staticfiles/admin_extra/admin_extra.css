@@ -1,0 +1,273 @@
+/* ============================================================================
+   admin_extra.css — Tema "Claude" untuk Django Admin (di atas kerangka Jazzmin)
+   Palet khas Anthropic/Claude: kanvas krem, aksen clay/terracotta, tinta hangat.
+   Tujuan: mengganti tampilan default Jazzmin & menyembunyikan branding-nya.
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    --claude-canvas:    #F0EEE6;  /* latar utama (kanvas Claude) */
+    --claude-paper:     #FAF9F5;  /* kartu / panel */
+    --claude-white:     #FFFFFF;
+    --claude-clay:      #C96442;  /* aksen utama (clay/terracotta) */
+    --claude-clay-600:  #B0532F;  /* hover */
+    --claude-clay-700:  #934429;
+    --claude-clay-soft: #F5E6DE;  /* clay sangat muda untuk highlight */
+    --claude-ink:       #2B2A26;  /* teks utama */
+    --claude-ink-soft:  #5C5A52;  /* teks sekunder */
+    --claude-muted:     #8A887F;  /* teks redup */
+    --claude-border:    #E2DFD4;  /* garis pemisah */
+    --claude-border-2:  #D6D2C4;
+    --claude-dark:      #2A2925;  /* sidebar gelap hangat */
+    --claude-dark-2:    #34322D;  /* hover sidebar */
+    --claude-dark-text: #C9C6BB;  /* teks pada sidebar */
+    --claude-danger:    #A6492F;  /* merah bata hangat */
+    --claude-danger-600:#8C3B25;
+}
+
+/* ---------- Dasar ---------- */
+body,
+.wrapper,
+.content-wrapper {
+    background-color: var(--claude-canvas) !important;
+    color: var(--claude-ink) !important;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+}
+
+a {
+    color: var(--claude-clay) !important;
+}
+a:hover {
+    color: var(--claude-clay-700) !important;
+}
+
+h1, h2, h3, h4, h5,
+.content-header h1,
+.card-title {
+    font-family: 'Fraunces', Georgia, serif !important;
+    color: var(--claude-ink) !important;
+    letter-spacing: -0.01em;
+}
+
+/* ---------- Navbar atas ---------- */
+.main-header.navbar {
+    background-color: var(--claude-paper) !important;
+    border-bottom: 1px solid var(--claude-border) !important;
+    box-shadow: none !important;
+}
+.main-header .nav-link,
+.main-header .navbar-nav .nav-link {
+    color: var(--claude-ink-soft) !important;
+}
+.main-header .nav-link:hover {
+    color: var(--claude-clay) !important;
+}
+/* Kotak pencarian di navbar */
+.navbar .form-control,
+.navbar .input-group .form-control {
+    background-color: var(--claude-canvas) !important;
+    border: 1px solid var(--claude-border-2) !important;
+    color: var(--claude-ink) !important;
+    border-radius: 8px !important;
+}
+
+/* ---------- Sidebar ---------- */
+.main-sidebar,
+.main-sidebar .sidebar {
+    background-color: var(--claude-dark) !important;
+}
+.brand-link {
+    background-color: var(--claude-dark) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    color: var(--claude-white) !important;
+    font-family: 'Fraunces', Georgia, serif !important;
+    font-weight: 600 !important;
+    letter-spacing: 0.01em;
+}
+.brand-link .brand-image { box-shadow: none !important; }
+
+.sidebar .nav-sidebar .nav-link {
+    color: var(--claude-dark-text) !important;
+    border-radius: 8px !important;
+    margin: 2px 8px !important;
+}
+.sidebar .nav-sidebar .nav-link p { color: inherit !important; }
+.sidebar .nav-sidebar .nav-link:hover {
+    background-color: var(--claude-dark-2) !important;
+    color: var(--claude-white) !important;
+}
+.sidebar .nav-sidebar .nav-link.active {
+    background-color: var(--claude-clay) !important;
+    color: var(--claude-white) !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+.sidebar .nav-header {
+    color: var(--claude-muted) !important;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+}
+.user-panel .info a { color: var(--claude-white) !important; }
+
+/* ---------- Kartu / panel ---------- */
+.card {
+    background-color: var(--claude-paper) !important;
+    border: 1px solid var(--claude-border) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 1px 2px rgba(43,42,38,0.04) !important;
+}
+.card-header {
+    background-color: transparent !important;
+    border-bottom: 1px solid var(--claude-border) !important;
+}
+.card-primary.card-outline { border-top: 3px solid var(--claude-clay) !important; }
+
+/* ---------- Tombol ---------- */
+.btn {
+    border-radius: 8px !important;
+    font-weight: 500 !important;
+    border: 1px solid transparent !important;
+}
+/* Simpan (success) → clay penuh */
+.btn-success {
+    background-color: var(--claude-clay) !important;
+    border-color: var(--claude-clay) !important;
+    color: #fff !important;
+}
+.btn-success:hover {
+    background-color: var(--claude-clay-600) !important;
+    border-color: var(--claude-clay-600) !important;
+}
+/* Info (Simpan dan tambah / edit) → outline clay lembut */
+.btn-info {
+    background-color: var(--claude-clay-soft) !important;
+    border-color: var(--claude-border-2) !important;
+    color: var(--claude-clay-700) !important;
+}
+.btn-info:hover {
+    background-color: #EEDBD1 !important;
+    color: var(--claude-clay-700) !important;
+}
+/* Primary umum → clay */
+.btn-primary {
+    background-color: var(--claude-clay) !important;
+    border-color: var(--claude-clay) !important;
+    color: #fff !important;
+}
+.btn-primary:hover {
+    background-color: var(--claude-clay-600) !important;
+    border-color: var(--claude-clay-600) !important;
+}
+/* Hapus (danger) → merah bata hangat */
+.btn-danger {
+    background-color: var(--claude-danger) !important;
+    border-color: var(--claude-danger) !important;
+    color: #fff !important;
+}
+.btn-danger:hover {
+    background-color: var(--claude-danger-600) !important;
+    border-color: var(--claude-danger-600) !important;
+}
+/* Sekunder / Riwayat → tan netral */
+.btn-secondary {
+    background-color: var(--claude-canvas) !important;
+    border-color: var(--claude-border-2) !important;
+    color: var(--claude-ink) !important;
+}
+.btn-secondary:hover { background-color: #E7E4DA !important; }
+
+/* ---------- Tautan & breadcrumb ---------- */
+.breadcrumb { background-color: transparent !important; }
+.content-header .breadcrumb-item a { color: var(--claude-clay) !important; }
+.content-header .breadcrumb-item.active { color: var(--claude-muted) !important; }
+
+/* ---------- Tabel ---------- */
+.table thead th {
+    background-color: var(--claude-canvas) !important;
+    color: var(--claude-ink-soft) !important;
+    border-bottom: 1px solid var(--claude-border-2) !important;
+}
+.table td, .table th { border-color: var(--claude-border) !important; }
+.table-hover tbody tr:hover { background-color: var(--claude-clay-soft) !important; }
+
+/* Tautan baris hasil (changelist) */
+#result_list a { color: var(--claude-clay) !important; }
+
+/* ---------- Input form ---------- */
+.form-control,
+.vTextField, .vTextArea, select, textarea, input[type="text"],
+input[type="number"], input[type="email"], input[type="password"] {
+    background-color: var(--claude-white) !important;
+    border: 1px solid var(--claude-border-2) !important;
+    color: var(--claude-ink) !important;
+    border-radius: 8px !important;
+}
+.form-control:focus,
+input:focus, select:focus, textarea:focus {
+    border-color: var(--claude-clay) !important;
+    box-shadow: 0 0 0 3px rgba(201,100,66,0.15) !important;
+}
+
+/* Tab changeform */
+.nav-tabs .nav-link.active {
+    color: var(--claude-clay) !important;
+    border-bottom: 2px solid var(--claude-clay) !important;
+    background: transparent !important;
+}
+.nav-tabs .nav-link { color: var(--claude-ink-soft) !important; }
+
+/* Badge tipologi / boolean */
+.badge-success, .bg-success { background-color: var(--claude-clay) !important; }
+
+/* ---------- Halaman login ---------- */
+.login-page, .login-box {
+    background-color: var(--claude-canvas) !important;
+}
+.login-card-body, .card.card-outline {
+    background-color: var(--claude-paper) !important;
+}
+
+/* ---------- Footer: sembunyikan branding Jazzmin ---------- */
+.main-footer { background-color: var(--claude-paper) !important; border-top: 1px solid var(--claude-border) !important; color: var(--claude-ink-soft) !important; }
+/* "Jazzmin version x.y.z" berada di div float-right footer → sembunyikan */
+.main-footer .float-right { display: none !important; }
+
+/* ============================================================================
+   Perbaikan tabel inline (Pairwise values) — kolom "Block" jangan terpotong
+   ========================================================================== */
+.inline-group .tabular,
+.inline-group .djn-tabular {
+    overflow-x: auto;
+    display: block;
+    width: 100%;
+}
+.inline-group .tabular table {
+    width: 100%;
+    table-layout: auto;
+    border-collapse: collapse;
+}
+.inline-group .tabular th.column-block,
+.inline-group .tabular td.field-block {
+    min-width: 240px;
+    white-space: nowrap;
+}
+.inline-group .tabular td.field-block select,
+.inline-group .tabular select {
+    width: 100%;
+    min-width: 220px;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+}
+.inline-group .tabular th,
+.inline-group .tabular td {
+    overflow: visible;
+    vertical-align: middle;
+    padding: 6px 10px;
+}
+.inline-group .tabular td.field-i input,
+.inline-group .tabular td.field-j input,
+.inline-group .tabular td.field-value input {
+    max-width: 110px;
+}

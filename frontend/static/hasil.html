@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hasil Agregat — Bobot Zonasi FOLUR Luwu</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = { theme: { extend: {
+      fontFamily: { display:["Fraunces","serif"], sans:["Inter","sans-serif"], mono:["JetBrains Mono","monospace"] },
+      colors: { canopy:{50:"#f1f6f0",100:"#dbe8d8",600:"#3f6b3a",700:"#2f5430",800:"#234023",900:"#1a3019"},
+                clay:{400:"#c98a5a",500:"#b6713f",600:"#9a5a2e"} },
+    }}};
+  </script>
+  <style>body{background:#f6f3ea;}</style>
+</head>
+<body class="font-sans text-canopy-900 min-h-screen">
+  <header class="border-b border-canopy-800/15 bg-paper/80 sticky top-0 z-20">
+    <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between">
+      <p class="font-display font-extrabold text-lg text-canopy-800">Hasil Agregat Bobot</p>
+      <a href="index.html" class="font-mono text-xs text-clay-600 hover:text-clay-500">+ tambah penilaian</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-5 py-8">
+    <div id="status" class="text-center py-16 text-canopy-700/60 font-mono text-sm">Memuat hasil…</div>
+
+    <section id="content" class="hidden">
+      <div class="flex items-baseline justify-between mb-6">
+        <h1 class="font-display font-extrabold text-2xl text-canopy-900">Bobot global indikator</h1>
+        <span id="n-experts" class="font-mono text-xs text-canopy-700/60"></span>
+      </div>
+      <div id="weights-list" class="space-y-2 mb-12"></div>
+
+      <h2 class="font-display font-extrabold text-xl text-canopy-900 mb-4">Perbandingan bobot kriteria antar tipologi</h2>
+      <div class="overflow-x-auto rounded-2xl border border-canopy-800/12 bg-white/70">
+        <table class="w-full text-sm" id="typ-table"></table>
+      </div>
+      <p class="text-xs text-canopy-700/55 mt-3 leading-relaxed">
+        Kolom GABUNGAN adalah agregasi seluruh ahli (geometric mean per sel matriks).
+        Perbedaan antar tipologi menunjukkan keragaman persepsi yang berguna untuk triangulasi.
+      </p>
+    </section>
+  </main>
+
+  <footer class="max-w-4xl mx-auto px-5 py-8 text-center">
+    <p class="font-mono text-[11px] text-canopy-700/40">PT. MARETO AGRI PERSADA · UNDP FOLUR Indonesia</p>
+  </footer>
+
+  <script src="config.js"></script>
+  <script>
+    async function load() {
+      try {
+        const res = await fetch(`${API_BASE}/weights/`);
+        if (!res.ok) {
+          const d = await res.json();
+          document.getElementById("status").textContent = d.detail || "Belum ada data.";
+          return;
+        }
+        const data = await res.json();
+        document.getElementById("status").classList.add("hidden");
+        document.getElementById("content").classList.remove("hidden");
+        document.getElementById("n-experts").textContent = `${data.n_experts} ahli`;
+
+        // Bobot global — bar horizontal
+        const list = document.getElementById("weights-list");
+        const max = Math.max(...data.bobot_global.map(r => r.bobot_global));
+        const palette = { K1:"#3f6b3a", K2:"#5a8a52", K3:"#b6713f", K4:"#9a5a2e", K5:"#7a6a4a" };
+        data.bobot_global
+          .sort((a,b)=>b.bobot_global-a.bobot_global)
+          .forEach(r => {
+            const pct = (r.bobot_global / max) * 100;
+            const row = document.createElement("div");
+            row.className = "bg-white/70 rounded-xl border border-canopy-800/10 p-3";
+            row.innerHTML = `
+              <div class="flex items-center justify-between mb-1.5">
+                <span class="text-sm font-medium text-canopy-800">
+                  <span class="font-mono text-xs text-canopy-700/50">${r.konstruk}</span>
+                  ${r.indikator}
+                </span>
+                <span class="font-mono text-sm text-canopy-900">${r.bobot_global.toFixed(4)}</span>
+              </div>
+              <div class="h-2 rounded-full bg-canopy-800/8 overflow-hidden">
+                <div class="h-full rounded-full" style="width:${pct}%;background:${palette[r.konstruk]||'#3f6b3a'}"></div>
+              </div>`;
+            list.appendChild(row);
+          });
+
+        // Tabel perbandingan tipologi
+        const comp = data.perbandingan_tipologi;
+        const constructs = Object.keys(comp);
+        const cols = constructs.length ? Object.keys(comp[constructs[0]]) : [];
+        const table = document.getElementById("typ-table");
+        const labelMap = { K1:"Kesesuaian Lahan", K2:"Daya Dukung", K3:"Risiko Iklim",
+                           K4:"Nilai Konservasi", K5:"Sosial-Ekonomi" };
+        let html = `<thead><tr class="border-b border-canopy-800/12 text-left">
+          <th class="px-4 py-3 font-medium text-canopy-800">Kriteria</th>
+          ${cols.map(c=>`<th class="px-3 py-3 font-mono text-xs ${c==='GABUNGAN'?'text-clay-600':'text-canopy-700/70'}">${c}</th>`).join("")}
+        </tr></thead><tbody>`;
+        constructs.forEach(c => {
+          html += `<tr class="border-b border-canopy-800/8 last:border-0">
+            <td class="px-4 py-3 font-medium text-canopy-800">${c} · ${labelMap[c]||""}</td>
+            ${cols.map(col=>{
+              const v = comp[c][col];
+              const strong = col==='GABUNGAN';
+              return `<td class="px-3 py-3 font-mono ${strong?'text-clay-600 font-semibold':'text-canopy-800/80'}">${v!==undefined?v.toFixed(3):'–'}</td>`;
+            }).join("")}
+          </tr>`;
+        });
+        html += "</tbody>";
+        table.innerHTML = html;
+      } catch (e) {
+        document.getElementById("status").textContent = "Tidak dapat menghubungi server. Pastikan backend berjalan.";
+      }
+    }
+    document.addEventListener("DOMContentLoaded", load);
+  </script>
+</body>
+</html>
