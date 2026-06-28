@@ -5,9 +5,9 @@ deterministik, dan pelaporan agregat — siap dijalankan dengan satu perintah Do
 
 ```
 ┌──────────────┐     /api/ proxy    ┌──────────────┐     psql     ┌────────────┐
-│  frontend    │ ─────────────────▶ │   backend    │ ───────────▶ │     db     │
+│  frontend    │ ─────────────────▶│   backend    │ ───────────▶ │     db     │
 │ nginx +      │                    │ Django + DRF │              │ PostgreSQL │
-│ Tailwind UI  │ ◀───────────────── │ kobo_mce AHP │ ◀─────────── │            │
+│ Tailwind UI  │ ◀─────────────────│ kobo_mce AHP │ ◀─────────── │            │
 └──────────────┘                    └──────────────┘              └────────────┘
    :8080                                :8000 (internal)              :5432 (internal)
 ```
